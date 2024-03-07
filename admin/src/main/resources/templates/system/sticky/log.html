@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+    <style>
+        .layui-form-pane .layui-form-label{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="timo-layout-page" th:style="'background-image: url(' + @{/images/page.png} + ')'" >
+<div class="layui-card">
+    <div class="layui-card-header timo-card-header">
+        <span><i class="fa fa-bars"></i> 日志管理</span>
+        <i class="layui-icon layui-icon-refresh refresh-btn"></i>
+    </div>
+    <div class="layui-card-body">
+        <div class="layui-row timo-card-screen">
+            <div class="pull-left layui-form-pane timo-search-box">
+                <div class="layui-inline">
+                    <label class="layui-form-label">日志名称 </label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" th:value="${param.name}" placeholder="请输入日志名称" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn timo-search-btn">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="timo-table-wrap">
+            <table class="layui-table timo-table timo-table-fixed">
+                <thead>
+                <tr>
+                    <th class="sortable" data-field="id">编号</th>
+                    <th>浏览器ID</th>
+                    <th>公网IP</th>
+                    <th>CPU数量</th>
+                    <th>CPU型号</th>
+                    <th>CPU核心数</th>
+                    <th>CPU ID</th>
+                    <th>内存序列号</th>
+                    <th>PC序列号</th>
+                    <th>硬盘序列号</th>
+                    <th>MAC地址</th>
+                    <th>创建时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item:${list}">
+                    <td th:text="${item.id}">系统编号</td>
+                    <td th:text="${item.browserId}">浏览器ID</td>
+                    <td th:text="${item.publicIp}">公网IP</td>
+                    <td th:text="${item.cpuCount}">CPU数量</td>
+                    <td th:text="${item.cpuModel}">CPU型号</td>
+                    <td th:text="${item.cpuCoreCount}">CPU核心数</td>
+                    <td th:text="${item.cpuId}">CPU ID</td>
+                    <td th:text="${item.ramSn}">内存序列号</td>
+                    <td th:text="${item.pcSn}">PC序列号</td>
+                    <td th:text="${item.diskSn}">硬盘序列号</td>
+                    <td th:text="${item.mac}">MAC地址</td>
+                    <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
+                </tr>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:replace="/common/fragment :: page"></div>
+    </div>
+</div>
+
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+    <title>锁信息管理</title>
+    <style>
+        .layui-form-pane .layui-form-label{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="timo-layout-page" th:style="'background-image: url(' + @{/images/page.png} + ')'" >
+<div class="layui-card">
+    <div class="layui-card-header timo-card-header">
+        <span><i class="fa fa-lock"></i> 日志信息</span>
+        <i class="layui-icon layui-icon-refresh refresh-btn"></i>
+    </div>
+    <div class="layui-card-body">
+        <div class="layui-row timo-card-screen">
+            <div class="pull-left layui-form-pane timo-search-box">
+                <div class="layui-inline">
+                    <label class="layui-form-label">进程名称 </label>
+                    <div class="layui-input-block">
+                        <input type="text" name="processName" th:value="${param.processName}" placeholder="请输入进程名称" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn timo-search-btn">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="timo-table-wrap">
+            <table class="layui-table timo-table timo-table-fixed">
+                <thead>
+                <tr>
+                    <th class="sortable" data-field="id">编号</th>
+                    <th>记录时间</th>
+                    <th>进程名称</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item:${list}">
+                    <td th:text="${item.id}">系统编号</td>
+                    <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
+                    <td th:text="${item.processName}">非法进程名称</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:replace="/common/fragment :: page"></div>
+    </div>
+</div>
+
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

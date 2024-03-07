@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:mo="https://gitee.com/aun/Timo">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<style>
+    .my-card {
+        border: 1px
+        solid #babcbd; /* 将此处的 #333 替换为您想要的任意灰色 */
+    }
+    .word{
+        color: #9c9c9c
+    }
+    .parent-container {
+        display: flex;
+        justify-content: center; /* 水平居中 */
+        align-items: center; /* 垂直居中 */
+    }
+
+</style>
+<body class="timo-layout-page" th:style="'background-image: url(' + @{/images/page.png} + ')'">
+    <div class="layui-card">
+        <div class="layui-card-header timo-card-header">
+            <span><i class="fa fa-bars"></i> 节点列表</span>
+            <i class="layui-icon layui-icon-refresh refresh-btn"></i>
+        </div>
+        <div class="layui-card-body">
+            <div class="layui-row timo-card-screen">
+                <div class="pull-left layui-form-pane timo-search-box">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态</label>
+                        <div class="layui-input-block timo-search-status">
+                            <select class="timo-search-select" name="status" mo:dict="SEARCH_STATUS" mo-selected="${param.status}"></select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">标题</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" th:value="${param.title}" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn timo-search-btn">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="pull-right screen-btn-group">
+                    <button class="layui-btn open-popup" data-title="添加鉴权子系统" th:attr="data-url=@{/system/access/add}" data-size="auto">
+                        <i class="fa fa-plus"></i> 添加</button>
+                    <div class="btn-group">
+                        <button class="layui-btn">操作<span class="caret"></span></button>
+                        <dl class="layui-nav-child layui-anim layui-anim-upbit">
+                            <dd><a class="ajax-status" th:href="@{/system/access/status/ok}">启用</a></dd>
+                            <dd><a class="ajax-status" th:href="@{/system/access/status/freezed}">冻结</a></dd>
+                            <dd><a class="ajax-status" th:href="@{/system/access/status/delete}">删除</a></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="timo-table-wrap">
+                <table class="layui-table timo-table">
+                    <thead>
+                    <tr>
+                        <th class="timo-table-checkbox">
+                            <label class="timo-checkbox"><input type="checkbox">
+                                <i class="layui-icon layui-icon-ok"></i></label>
+                        </th>
+                        <th>节点编号</th>
+                        <th>节点名称</th>
+                        <th>创建时间</th>
+                        <th>更新时间</th>
+                        <th>节点状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item:${list}">
+                        <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
+                            <i class="layui-icon layui-icon-ok"></i></label></td>
+                        <td th:text="${item.id}">节点编号</td>
+                        <td th:text="${item.title}">节点名称</td>
+                        <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
+                        <td th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
+                        <td th:text="${#dicts.dataStatus(item.status)}">节点状态</td>
+                        <td>
+                            <a class="open-popup" data-title="编辑节点" th:attr="data-url=@{'/system/access/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>
+                            <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/system/access/detail/'+${item.id}}" data-size="800,600" href="#">详细</a>
+                            <a class="ajax-get" data-msg="您是否确认删除" th:href="@{/system/access/status/delete(ids=${item.id})}">删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:replace="/common/fragment :: page"></div>
+        </div>
+    </div>
+    <div class="layui-card">
+        <div class="layui-card-header timo-card-header">
+            <span><i class="fa fa-bars"></i> 节点管理</span>
+            <i class="layui-icon layui-icon-refresh refresh-btn"></i>
+        </div>
+        <div style="padding: 16px;">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md3" >
+                    <div class="layui-card my-card ">
+                        <div class="layui-card-body">
+                            <span class="layui-text-title" style="font-weight: 550;" >节点1</span>
+                            <p class="word ">2022-02-28 15:30:00<br><br></p>
+                            <span class="word">节点地址</span>
+                            <span>192.168.1.3</span>
+                            <span class="word"> | 端口号</span>
+                            <span>5124<br></span>
+                            <span class="word">参与鉴权次数</span> <span>1</span>
+                            <div class="layui-col-md-offset5">
+                                <button class="layui-btn layui-bg-blue">查看</button>
+                                <button class="layui-btn layui-btn-primary layui-border">删除</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-card">
+        <div class="layui-card-header timo-card-header">
+            <span><i class="fa fa-bars"></i> 监控看板</span>
+            <i class="layui-icon layui-icon-refresh refresh-btn"></i>
+        </div>
+        <div class="layui-card-body">
+            <div style="max-height: 300px; overflow-y: auto;">
+                <pre id="logContent">{{后台返回的日志内容}}</pre>
+            </div>
+        </div>
+    </div>
+    <script th:replace="/common/template :: script"></script>
+
+    <script>
+        // 假设您已经通过Ajax获取到了后台日志数据，并存储在变量logData中
+        var logData = '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '这是后台返回的日这是后台返回的日志内容\n' +
+            '志内容...';
+
+        // 将日志数据填充到HTML元素中
+        document.getElementById('logContent').innerText = logData; // 对于 <pre> 标签
+        // 或
+        document.getElementById('logContent').value = logData; // 对于 <textarea> 标签
+    </script>
+</body>
+</html>

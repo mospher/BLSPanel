@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+    <style>
+        .download-link {
+            display: inline-block;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .download-link:hover {
+            text-decoration: underline;
+        }
+        .download-link i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${locking.id}"></td>
+                    <th>标题</th>
+                    <td th:text="${locking.title}"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${locking.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${locking.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(locking.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(locking.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${locking.remark}" colspan="3"></td>
+                </tr>
+                <tr th:if="${not #strings.isEmpty(locking.remark)}">
+                    <th>附件下载</th>
+                    <td colspan="3">
+                        <!-- 判断remark是否为有效的URL -->
+                        <a th:href="@{'${locking.remark}'}" download target="_blank"
+                           class="download-link"
+                           th:unless="${#strings.startsWith(locking.remark, 'http') or #strings.startsWith(locking.remark, 'https')}">
+                            <i class="fa fa-exclamation-triangle"></i>&nbsp;无法下载，请检查链接格式
+                        </a>
+                        <a th:href="${locking.remark}" download target="_blank"
+                           class="download-link"
+                           th:if="${#strings.startsWith(locking.remark, 'http') or #strings.startsWith(locking.remark, 'https')}">
+                            <i class="fa fa-download"></i>&nbsp;下载附件
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

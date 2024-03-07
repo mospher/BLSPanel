@@ -1,0 +1,25 @@
+### TIMO配置
+project:
+  captcha-open: true                         #是否开启登录验证码
+  upload:
+    file-path: /data/upload/                 #文件上传路径，默认在项目根目录upload下
+
+### spring配置
+spring:
+  ## 数据库配置
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/timo_prod?useSSL=false&characterEncoding=utf-8
+    username: root
+    password:
+
+  ## jpa配置
+  jpa:
+    show-sql: false                          #关闭sql显示
+    hibernate:
+      ddl-auto: none                         #关闭检查
+
+  ## thymeleaf模板设置
+  thymeleaf:
+    cache: true                              #开启模板缓存
+

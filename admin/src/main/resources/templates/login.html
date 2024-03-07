@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+    <title>BSL登录</title>
+    <!-- 添加Bootstrap核心CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <!-- 添加自定义登录页面样式 -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/signin.css}">
+</head>
+<body class="text-center">
+    <form class="form-signin" th:action="@{/login}" method="post">
+        <img class="mb-4" th:src="@{/images/bsl.svg}" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
+        <input type="text" name="username" class="form-control" th:placeholder="用户名" required="" autofocus="">
+        <input type="password" name="password" class="form-control" th:placeholder="密码" required="">
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="rememberMe" value="remember-me" > 记住我
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block ajax-login" type="submit"><i class="fa fa-sign-in fa-lg fa-fw"></i> 登录</button>
+        <p class="mt-5 mb-3 text-muted"> © 2023-2025 EchoTeam.</p>
+
+        <!-- 验证码部分保持不变 -->
+        <div th:if="${isCaptcha}" class="captcha-item">
+            <input class="layui-input" type="text" name="captcha" autocomplete="off" placeholder="验证码">
+            <img class="captcha-img" th:src="@{/captcha}" />
+        </div>
+    </form>
+<script th:replace="/common/template :: script"></script>
+<script th:src="@{/js/login.js}" charset="utf-8"></script>
+</body>
+</html>

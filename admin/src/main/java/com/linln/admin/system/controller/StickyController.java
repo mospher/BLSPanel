@@ -64,7 +64,8 @@ public class StickyController {
      */
     @GetMapping("/add")
     @RequiresPermissions("system:sticky:add")
-    public String toAdd() {
+    public String toAdd(Model model, Sticky sticky) {
+        model.addAttribute("sticky", sticky);
         return "/system/sticky/add";
     }
 

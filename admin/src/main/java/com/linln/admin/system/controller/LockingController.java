@@ -18,7 +18,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 /**
  * @author 岳天一
@@ -69,6 +73,22 @@ public class LockingController {
     public String toEdit(@PathVariable("id") Locking locking, Model model) {
         model.addAttribute("locking", locking);
         return "/system/locking/add";
+    }
+
+    /**
+     * 获取节点列表
+     * */
+    @GetMapping("/locate")
+    @RequiresPermissions("index")
+    @ResponseBody
+    public Map<String, Long> getLocation() {
+        List<Locking> list = lockingService.findAll();
+        Map<String, Long> locationCounts = new HashMap<>();
+        for (Locking locking : list) {
+            String location = locking.getLocation();
+            locationCounts.put(location, locationCounts.getOrDefault(location, 0L) + 1);
+        }
+        return locationCounts;
     }
 
     /**

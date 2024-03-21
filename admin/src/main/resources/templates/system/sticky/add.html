@@ -31,6 +31,18 @@
                 <input value= "http://172.16.0.103/login" type="text" name="portNumber" lay-verify="required|number" placeholder="请输入网站地址" autocomplete="off" class="layui-input" />
             </div>
             <div class="layui-form-item timo-finally">
+                <label class="layui-form-label">地点</label>
+                <div class="layui-input-inline">
+                    <select name="location" lay-search="">
+                        <option value="">请选择或搜索</option>·
+                        <option value="上海" th:selected="${sticky?.location == '上海'}">上海</option>
+                        <option value="海口" th:selected="${sticky?.location == '海口'}">海口</option>
+                        <option value="哈尔滨" th:selected="${sticky?.location == '哈尔滨'}">哈尔滨</option>
+                        <option value="北京" th:selected="${sticky?.location == '北京'}">北京</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item timo-finally">
                 <button class="layui-btn" id="xmSelect-getValue"><i class="fa fa-check-circle"></i> 保存</button>
                 <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
             </div>

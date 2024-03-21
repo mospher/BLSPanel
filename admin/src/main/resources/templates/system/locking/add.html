@@ -12,6 +12,33 @@
                 <input class="layui-input" type="text" name="title" placeholder="请输入系统名称" th:value="${locking?.title}">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">地点</label>
+            <div class="layui-input-inline">
+                <select name="location"  lay-search="">
+                    <option value="">请选择或搜索</option>
+                    <!-- 国内城市 -->
+                    <option value="北京" th:selected="${locking?.location == '北京'}">北京</option>
+                    <option value="成都" th:selected="${locking?.location == '成都'}">成都</option>
+                    <option value="广州" th:selected="${locking?.location == '广州'}">广州</option>
+                    <option value="海口" th:selected="${locking?.location == '海口'}">海口</option>
+                    <option value="哈尔滨" th:selected="${locking?.location == '哈尔滨'}">哈尔滨</option>
+                    <option value="杭州" th:selected="${locking?.location == '杭州'}">杭州</option>
+                    <option value="呼和浩特" th:selected="${locking?.location == '呼和浩特'}">呼和浩特</option>
+                    <option value="三亚" th:selected="${locking?.location == '三亚'}">三亚</option>
+                    <option value="上海" th:selected="${locking?.location == '上海'}">上海</option>
+                    <option value="深圳" th:selected="${locking?.location == '深圳'}">深圳</option>
+                    <option value="珠海" th:selected="${locking?.location == '珠海'}">珠海</option>
+                    <option value="乌鲁木齐" th:selected="${locking?.location == '乌鲁木齐'}">乌鲁木齐</option>
+                    <!-- 国际城市 -->
+                    <option value="伦敦" th:selected="${locking?.location == '伦敦'}">伦敦</option>
+                    <option value="纽约" th:selected="${locking?.location == '纽约'}">纽约</option>
+                    <option value="巴黎" th:selected="${locking?.location == '巴黎'}">巴黎</option>
+                    <option value="悉尼" th:selected="${locking?.location == '悉尼'}">悉尼</option>
+                    <option value="东京" th:selected="${locking?.location == '东京'}">东京</option>
+                </select>
+            </div>
+        </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">文件地址</label>
             <div class="layui-input-block">

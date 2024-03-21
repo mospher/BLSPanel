@@ -40,6 +40,8 @@ public class Sticky implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+    // 地点
+    private String location;
     // 标题
     private String title;
     // 备注

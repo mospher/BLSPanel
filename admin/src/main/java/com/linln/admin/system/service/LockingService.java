@@ -20,7 +20,7 @@ public interface LockingService {
      * @return 返回分页数据
      */
     Page<Locking> getPageList(Example<Locking> example);
-
+    List<Locking> findAll();
     /**
      * 根据ID查询数据
      * @param id 主键ID

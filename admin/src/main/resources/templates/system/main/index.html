@@ -5,17 +5,6 @@
         a{
             color: #005980;
         }
-        .widget-small{
-            background-color: #FFFFFF;
-            overflow: hidden;
-            text-align: center;
-            border-radius: 2px;
-            box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
-        }
-        .memory-unit {
-            font-size: 14px; /* 自定义单位字体大小 */
-            color: #000000; /* 自定义单位颜色 */
-        }
         .widget-small .fa{
             float: left;
             width: 40%;
@@ -38,22 +27,11 @@
             font-weight: bold;
             font-size: 18px; /* 这里可以根据需要调整字号大小 */
         }
-        .widget-small-info{
-            float: left;
-            text-align: left;
-            width: 40%;
-            margin-left: 20px;
-            margin-top: 18px;
-            line-height: 24px;
-        }
         .widget-small-info h4{
             font-size: 18px;
         }
         .widget-small-info span{
             font-size: 16px;
-        }
-        .project-introduce{
-            min-height: 466px;
         }
         .project-introduce h4{
             font-weight: bold;
@@ -64,137 +42,43 @@
             list-style: decimal;
             margin-left: 28px;
         }
-        .alert {
-            padding: 15px;
-            margin-bottom: 10px;
-            border: 1px solid transparent;
-            border-radius: 4px;
-        }
-        .alert-info {
-            color: #31708f;
-            background-color: #d9edf7;
-            border-color: #bce8f1;
-        }
     </style>
 </head>
 <body class="timo-layout-page" th:style="'background-image: url(' + @{/images/page.png} + ')'">
-<div class="layui-row layui-col-space15">
-    <div class="layui-col-md3 layui-col-sm6 layui-col-xs12">
-        <div class="widget-small widget-user">
-            <i class="icon fa fa-cloud-upload fa-3x"></i>
-            <div class="widget-small-info">
-                <h4>服务总内存</h4>
-                <span>253</span>
-                <span class="memory-unit">MB</span>
-            </div>
-        </div>
-    </div>
-    <div class="layui-col-md3 layui-col-sm6 layui-col-xs12">
-        <div class="widget-small widget-visit">
-            <i class="icon fa fa-line-chart fa-3x"></i>
-            <div class="widget-small-info">
-                <h4>新增日志</h4>
-                <span id="newLogsCount">0</span>
-                <span class="memory-unit">条</span>
-            </div>
-        </div>
-    </div>
-    <div class="layui-col-md3 layui-col-sm6 layui-col-xs12">
-        <div class="widget-small widget-message">
-            <i class="icon fa fa-users fa-3x"></i>
-            <div class="widget-small-info">
-                <h4>用户数量</h4>
-                <span>3</span>
-            </div>
-        </div>
-    </div>
-    <div class="layui-col-md3 layui-col-sm6 layui-col-xs12">
-        <div class="widget-small widget-like">
-            <i class="icon fa fa-graduation-cap fa-3x"></i>
-            <div class="widget-small-info">
-                <h4>系统数量</h4>
-                <span>3</span>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="layui-row layui-col-space15">
+<div class="layui-row layui-col-space5">
     <div class="layui-col-md7">
-
         <div class="layui-card">
-            <div class="layui-card-header larger-bold">内存占比</div>
-            <div class="layui-card-body" style="height: 380px;">
-                <div id="pieChart" style="width: 100%; height: 100%;"></div>
-            </div>
-        </div>
-
-        <div class="layui-row layui-col-space15">
-            <div class="layui-col-md6">
-                <div class="layui-card">
-                    <div class="layui-card-header larger-bold">系统功能</div>
-                    <div class="layui-card-body">
-                        <ol>
-                            <li><a th:href="@{/system/sticky/index}">粘随子系统</a>：用于配置粘随子系统。</li>
-                            <li><a th:href="@{/system/locking/index}">锁闭保护</a>：用于配置锁闭保护。</li>
-                            <li><a th:href="@{/system/actionLog/index}">系统日志</a>：用于查看用户行为记录。</li>
-                            <li><a th:href="@{/system/dept/index}">项目管理</a>：通过不同的项目来管理和区分用户。</li>
-                            <li><a th:href="@{/system/user/index}">账号管理</a>：用于管理后台系统的用户。</li>
-                            <li><a th:href="@{/system/menu/index}">菜单管理</a>：用于配置系统菜单。</li>
-                        </ol>
-                    </div>
-                </div>
-                <div class="layui-card">
-                    <div class="layui-card-header larger-bold">帮助文档</div>
-                    <div class="layui-card-body">
-                        <ul>
-                            <li><i class="fa fa-paper-plane"></i> 版本：v1.0.1</li>
-                            <li><i class="fa fa-coffee"></i> 作者：EchoTeam</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-md6">
-                <div class="layui-card">
-                    <div class="layui-card-header larger-bold">更新日志</div>
-                    <div class="layui-card-body">
-                        <ul class="layui-timeline">
-                            <li class="layui-timeline-item">
-                                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                                <div class="layui-timeline-content layui-text">
-                                    <h3 class="layui-timeline-title">v1.0.1</h3>
-                                    <p>
-                                        新增功能：<br>
-                                        1.主页<br>
-                                        2.系统日志
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="layui-timeline-item">
-                                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                                <div class="layui-timeline-content layui-text">
-                                    <h3 class="layui-timeline-title">v1.0</h3>
-                                    <p>
-                                        正式发布v1.0系统<br>
-                                        1.锁闭保护<br>
-                                        2.粘随子系统<br>
-                                        3.用户管理
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="layui-timeline-item">
-                                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                                <div class="layui-timeline-content layui-text">
-                                    <div class="layui-timeline-title">EchoTeam</div>
-                                </div>
-                            </li>
-                        </ul>
+            <div class="layui-card-header">技术文档</div>
+            <div class="layui-card-body">
+                <div class="layui-carousel" id="carouselDemo">
+                    <div carousel-item="">
+                        <!-- 这里是动态加载的图片列表 -->
+                        <div><img src="/images/page.png" alt="" class="popup-image open-popup" data-title="图片详情" th:attr="data-url=@{/system/access/add}"></div>
+                        <div><img src="/images/page.png" alt="" class="popup-image open-popup" data-title="图片详情" th:attr="data-url=@{/system/access/index}"></div>
+                        <!-- 更多图片... -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="layui-col-md5">
+        <div class="layui-card">
+            <div class="layui-card-header">拓扑状态</div>
 
+        </div>
+    </div>
+
+</div>
+<div class="layui-row layui-col-space5">
+    <div class="layui-col-md7">
+        <div class="layui-card">
+            <div class="layui-card-header larger-bold">节点分布</div>
+            <div class="layui-card-body" style="height: 380px;">
+                <div id="map" style="width: 100%; height: 100%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md5">
         <div class="layui-card">
             <div class="layui-card-header">
                 <span class="larger-bold">日志数据</span>
@@ -204,87 +88,16 @@
                 <div id="lineChart" style="width: 100%; height: 100%;"></div>
             </div>
         </div>
-        <div class="layui-card">
-            <div class="layui-card-header larger-bold">技术文档</div>
-            <table class="layui-table">
-                <thead>
-                <tr>
-                    <th>序号</th>
-                    <th>作者</th>
-                    <th>内容</th>
-                    <th>点击量</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>顾凡</td>
-                    <td>关于工控恶意软件的调研</td>
-                    <td>21</td>
-                    <td>
-                        <a href="https://www.baidu.com"
-                           class="open-webpage">查看</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>顾凡</td>
-                    <td>测试大纲</td>
-                    <td>11</td>
-                    <td>
-                        <a href="https://www.baidu.com"
-                           class="open-webpage">查看</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>岳天一</td>
-                    <td>ai办公工具分享</td>
-                    <td>30</td>
-                    <td>
-                        <a href="https://gitee.com/mospher/pbft-master-origin/raw/master/ai%E4%B8%8E%E5%8A%9E%E5%85%AC.pptx"
-                           class="open-webpage">查看</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>杨佳庚</td>
-                    <td>鉴权蜜融合</td>
-                    <td>31</td>
-                    <td>
-                        <a href="https://www.baidu.com"
-                           class="open-webpage">查看</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>王田</td>
-                    <td>atomicals nft</td>
-                    <td>111</td>
-                    <td>
-                        <a href="https://www.baidu.com"
-                           class="open-webpage">查看</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>张云涛</td>
-                    <td>ATOM叙事</td>
-                    <td>1211</td>
-                    <td>
-                        <a href="https://www.baidu.com"
-                           class="open-webpage">查看</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
     </div>
 </div>
+
 <script th:replace="/common/template :: script"></script>
 <script type="text/javascript" th:src="@{/js/plugins/echarts.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/china.js}"></script>
+<script type="text/javascript" th:src="@{/js/world.js}"></script>
 <script type="text/javascript" th:src="@{/js/plugins/jquery-2.2.4.js}"></script>
+
+
 
 <!--折线图-->
 <script type="text/javascript">
@@ -385,119 +198,157 @@
         });
     });
 </script>
-<!--饼状图-->
+<!--地图-->
 <script type="text/javascript">
-    // 获取图表容器
-    var pieChartDom = echarts.init(document.getElementById('pieChart'));
-
-    // 初始化饼状图实例
-    let index = 0;
-    var colorList = [
-        '#313ca8',
-        '#249dfd',
-        '#21cafd']
-    function fun() {
-        var timer = setInterval(function() {
-            myChart.dispatchAction({
-                type: 'hideTip',
-                seriesIndex: 0,
-                dataIndex: index
-            });
-            // 显示提示框
-            myChart.dispatchAction({
-                type: 'showTip',
-                seriesIndex: 0,
-                dataIndex: index
-            });
-            // 取消高亮指定的数据图形
-            myChart.dispatchAction({
-                type: 'downplay',
-                seriesIndex: 0,
-                dataIndex: index === 0? 5 : index -1
-            });
-            myChart.dispatchAction({
-                type: 'highlight',
-                seriesIndex: 0,
-                dataIndex: index
-            });
-            index++;
-            if (index > 5) {
-                index = 0;
-            }
-        },3000)
-    }
-
-    fun()
-    setTimeout(function() {fun()}, 50000);
-    option2 = {
-        tooltip: {
-            trigger: 'item',
-            formatter: (params) => `${params.data.name}: ${params.data.value}MB`,
-            backgroundColor: 'rgb(236,244,251)', // 可选，设置背景颜色以提高可读性
-            padding: [10, 15], // 可选，设置内边距
-            textStyle: { // 可选，设置文字样式
-                color: '#000000',
-                fontSize: 14 // 这里统一设置了tooltip的文字大小，如果你想让日期更大，可以在这里或formatter中第一行单独指定更大的字号
-            },
-        },
-        series: [{
-            type: 'pie',
-            center: ['50%', '50%'],
-            radius: ['24%', '45%'],
-            clockwise: true,
-            avoidLabelOverlap: true,
-            hoverOffset: 15,
-            itemStyle: {
-                normal: {
-                    color: function(params) {
-                        return colorList[params.dataIndex]
-                    }
-                }
-            },
-            label: {
-                show: true,
-                position: 'outside',
-                formatter: '{a|{b}：{d}%}\n{hr|}',
-                rich: {
-                    hr: {
-                        backgroundColor: 't',
-                        borderRadius: 3,
-                        width: 3,
-                        height: 3,
-                        padding: [3, 3, 0, -12]
-                    },
-                    a: {
-                        padding: [-30, 15, -20, 15]
-                    }
-                }
-            },
-            labelLine: {
-                normal: {
-                    length: 20,
-                    length2: 30,
-                    lineStyle: {
-                        width: 1
-                    }
-                }
-            },
-            data: [{
-                'name': '锁闭保护',
-                'value': 45
-            }, {
-                'name': '粘随子系统',
-                'value': 43
-            }, {
-                'name': '鉴权子系统',
-                'value': 50
-            }
-            ],
-        }]
+    var myMap = echarts.init(document.getElementById('map'));
+    var geoCoordMap = {
+        // 国内城市
+        '北京': [116.46, 39.92],
+        '成都': [104.06, 30.67],
+        '广州': [113.23, 23.16],
+        '海口': [110.35, 20.02],
+        '哈尔滨': [126.63, 45.75],
+        '杭州': [120.19, 30.26],
+        '呼和浩特': [111.65, 40.82],
+        '三亚': [109.511909, 18.252847],
+        '上海': [121.48, 31.22],
+        '深圳': [114.07, 22.62],
+        '珠海': [113.52, 22.3],
+        '乌鲁木齐': [87.68, 43.77],
+        // 国际城市
+        '伦敦': [-0.1277583, 51.5073509],
+        '纽约': [-74.0060152, 40.7127281],
+        '巴黎': [2.3522219, 48.856614],
+        '悉尼': [151.209295, -33.868820],
+        '东京': [139.767137, 35.689487],
     };
+    $.ajax({
+        url: '/system/locking/locate',
+        method: 'GET',
+        success: function(response) {
+            console.log('原始响应:', response);
+            var data = [];
+            for (let [location, count] of Object.entries(response)) {
+                if (geoCoordMap[location]) {  // 确保location在geoCoordMap中有对应的坐标
+                    data.push({ name: location, value: count });
+                }
+            }
+            console.log('转换后的data:', data);
+            var convertData = function (data) {
+                var res = [];
+                for (var i = 0; i < data.length; i++) {
+                    var geoCoord = geoCoordMap[data[i].name];
+                    if (geoCoord) {
+                        res.push({
+                            name: data[i].name,
+                            value: geoCoord.concat(data[i].value)
+                        });
+                    }
+                }
+                return res;
+            };
 
-    // 将配置项应用到图表实例
-    pieChartDom.setOption(option2);
+            option = {
+                // backgroundColor: '#f1f1f1',
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function(params) {
+                        return '<div style="background-color:#fff;padding:5px 10px;">'
+                            + '<p style="color:#333;font-size:16px;font-weight:bold;margin:0;">' + params.name + '</p>'
+                            + '<p style="font-size:14px;margin:0;">服务节点数量：' + params.value[2] + '</p>'
+                            + '</div>';
+                    },
+                },
+                geo: {
+                    map: 'world',
+                    zoom: 1.2,//放大p-==-
+                    label: {
+                        emphasis: {
+                            show: false
+                        }
+                    },
+                    roam: true,
+                    itemStyle: {
+                        normal: {
+                            areaColor: 'rgba(213,213,213,0.5)',
+                            borderColor: 'rgba(112,187,252,.5)'
+                        },
+                        emphasis: {
+                            areaColor: 'rgba(2,37,101,.8)'
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: '服务节点数量',
+                        type: 'effectScatter',
+                        coordinateSystem: 'geo',
+                        rippleEffect: {
+                            brushType: 'stroke'
+                        },
+                        data: convertData(data),
+                        symbolSize: function (val) {
+                            return val[2]*8 ;
+                        },
+                        label: {
+                            normal: {
+                                formatter: '{b}',
+                                position: 'right',
+                                show: false
+                            },
+                            emphasis: {
+                                show: false
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#7bc4ff'
+                            }
+                        }
+                    }
+
+                ]
+            };
+            myMap.setOption(option);
+            window.addEventListener("resize", function () {
+                myMap.resize();
+            });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error occurred while fetching location counts:', textStatus, ', Details:', errorThrown);
+        }
+    });
+    // var data = [
+    //     { name: '上海', value: 8 },
+    //     { name: '海口', value: 8 },
+    //     { name: '哈尔滨', value: 8 },
+    //     { name: '北京', value: 8 },
+    // ];
 </script>
-<!--表格-->
+<script>
+    layui.use(['carousel'], function(){
+        var carousel = layui.carousel;
+    // 轮播图配置
+        carousel.render({
+            elem: '#carouselDemo' // 匹配容器
+            ,width: '100%' // 宽度
+            ,height: '300px' // 高度
+            ,arrow: 'always' // 是否始终显示箭头
+            ,interval: 3000 // 切换间隔时间
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        // 为所有具有'popup-image'类的图片绑定点击事件
+        $('.popup-image').click(function(e) {
+            e.preventDefault(); // 阻止默认的链接行为
+
+            // 触发UI库的弹窗功能
+            // 假设layui会自动处理data-url和data-title这样的属性
+            $(this).trigger('open-popup');
+        });
+    });
+</script>
 </body>
 </html>
-

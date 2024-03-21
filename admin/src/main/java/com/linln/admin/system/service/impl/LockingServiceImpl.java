@@ -44,7 +44,14 @@ public class LockingServiceImpl implements LockingService {
         PageRequest page = PageSort.pageRequest();
         return lockingRepository.findAll(example, page);
     }
-
+    /**
+     * 获取列表数据
+     * @return 返回分页数据
+     */
+    @Override
+    public List<Locking> findAll() {
+        return lockingRepository.findAll();
+    }
     /**
      * 保存数据
      * @param locking 实体对象

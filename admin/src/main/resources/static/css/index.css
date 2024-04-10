@@ -1,0 +1,268 @@
+.emergency-server {
+    width: 60px;
+    height: 60px;
+    background-image: url('/images/node.png');
+    background-size: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 320px;
+    position: relative;
+}
+.user, .server {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    background-size: cover;
+}
+.user {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: url('/images/user.png') no-repeat center;
+    background-size: contain; /* 确保图像完整显示 */
+    width: 100px; /* 调整为适当的尺寸 */
+    height: 100px;
+}
+.approval {
+    position: absolute;
+    top: 180px; /* 调整以适应布局 */
+    left: 180px; /* 调整以适应布局 */
+    width: 60px; /* 图片大小 */
+    height: auto; /* 保持宽高比 */
+    display: none;
+    z-index: 1000; /* 确保z-index足够高 */
+}
+#exclamation-mark {
+    position: absolute;
+    left: 100px; /* 根据你的布局调整 */
+    top: 100px; /* 根据你的布局调整 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#exclamation-text {
+    margin-top: 5px; /* 根据需要调整 */
+    font-size: 14px; /* 根据需要调整 */
+    color: #333; /* 根据需要调整 */
+}
+
+.server {
+    right: 0;
+    top: 50%;
+    left: 80%;
+    transform: translateY(-50%);
+    background-color: #f0f0f0;
+    border-radius: 50%; /* 圆形 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px; /* 圆的直径 */
+    height: 100px; /* 圆的直径 */
+}
+
+.node1 {
+    width: 60px;
+    height: 60px;
+    background-image: url('/images/shield.png');
+    background-size: cover; /* 确保图片覆盖整个元素 */
+    position: absolute;
+}
+.node2 {
+    width: 60px;
+    height: 60px;
+    background-image: url('/images/shield.png');
+    background-size: cover; /* 确保图片覆盖整个元素 */
+    position: absolute;
+}
+.node3 {
+    width: 60px;
+    height: 60px;
+    background-image: url('/images/shield.png');
+    background-size: cover; /* 确保图片覆盖整个元素 */
+    position: absolute;
+}
+#node1 { top: 10px; left: 145px; }
+#node2 { top: 90px; left: 15px; }
+#node3 { top: 170px; left: 145px; }
+
+.identity, .data {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    background-size: cover;
+}
+.identity {
+    left: 0;
+    background-image: url('/images/idcard-green.png');
+    animation: moveIdentity 3s linear forwards;
+}
+.data {
+    right: 0;
+    background-image: url('/images/serverdata.png');
+    animation: moveData 3s linear forwards, fadeIn 1s ease-out forwards;
+    animation-delay: 3s, 3s; /* 两个动画都延迟3秒开始 */
+    opacity: 0; /* 开始时不可见 */
+}
+@keyframes moveIdentity {
+    0% { left: 10%; opacity: 1; }
+    90% { left: 80%; opacity: 1; }
+    100% { left: 80%; opacity: 0; }
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes moveData {
+    0% { right: 10%; opacity: 1; }
+    90% { right: 80%; opacity: 1; }
+    100% { right: 80%; opacity: 0; }
+}
+
+a{
+    color: #005980;
+}
+.widget-small .fa{
+    float: left;
+    width: 40%;
+    line-height: 80px;
+    color: #FFFFFF;
+}
+.widget-user .fa{
+    background-color: #18a974;
+}
+.widget-visit .fa{
+    background-color: #e79d4f;
+}
+.widget-message .fa{
+    background-color: #17a2b8;
+}
+.widget-like .fa{
+    background-color: #75878a;
+}
+.larger-bold {
+    font-weight: bold;
+    font-size: 18px; /* 这里可以根据需要调整字号大小 */
+}
+.widget-small-info h4{
+    font-size: 18px;
+}
+.widget-small-info span{
+    font-size: 16px;
+}
+.project-introduce h4{
+    font-weight: bold;
+    margin-top: 12px;
+    margin-bottom: 8px;
+}
+/*swip图片*/
+.doc-title {
+    text-align: center; /* 标题居中显示 */
+    margin-top: 10px; /* 标题与图片之间的间距 */
+    font-family: 'Arial', sans-serif; /* 字体类型 */
+    font-size: 16px; /* 字体大小 */
+    color: #333; /* 字体颜色 */
+    font-weight: bold; /* 字体加粗 */
+    line-height: 1.5; /* 行高，增加可读性 */
+}
+.swiper-slide img {
+    width: 100%;  /* 设置统一的宽度 */
+    height: 60%; /* 设置统一的高度 */
+    object-fit: fill; /* 覆盖整个内容区域，可能会裁切部分内容 */
+}
+.swiper-container {
+    overflow: hidden; /* 隐藏超出容器部分的内容 */
+}
+.swiper-slide {
+    box-sizing: border-box; /* 确保内边距和边框不会增加元素的总宽度或高度 */
+}
+
+
+.project-introduce li{
+    list-style: decimal;
+    margin-left: 28px;
+}
+.popup-image {
+    width: 100%;  /* 让图片宽度自适应容器 */
+    height: auto; /* 高度自动，保持宽高比 */
+}
+.widget-small{
+    background-color: #FFFFFF;
+    overflow: hidden;
+    text-align: center;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
+}
+.memory-unit {
+    font-size: 14px; /* 自定义单位字体大小 */
+    color: #000000; /* 自定义单位颜色 */
+}
+.widget-small .fa{
+    float: left;
+    width: 40%;
+    line-height: 80px;
+    color: #FFFFFF;
+}
+.widget-user .fa{
+    background-color: #18a974;
+}
+.widget-visit .fa{
+    background-color: #e79d4f;
+}
+.widget-message .fa{
+    background-color: #17a2b8;
+}
+.widget-like .fa{
+    background-color: #75878a;
+}
+.larger-bold {
+    font-weight: bold;
+    font-size: 18px; /* 这里可以根据需要调整字号大小 */
+}
+.widget-small-info{
+    float: left;
+    text-align: left;
+    width: 40%;
+    margin-left: 20px;
+    margin-top: 18px;
+    line-height: 24px;
+}
+.widget-small-info h4{
+    font-size: 18px;
+}
+.widget-small-info span{
+    font-size: 16px;
+}
+.project-introduce{
+    min-height: 466px;
+}
+.project-introduce h4{
+    font-weight: bold;
+    margin-top: 12px;
+    margin-bottom: 8px;
+}
+.project-introduce li{
+    list-style: decimal;
+    margin-left: 28px;
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.alert-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}

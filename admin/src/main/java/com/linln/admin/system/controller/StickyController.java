@@ -59,17 +59,35 @@ public class StickyController {
         return "/system/sticky/index";
     }
 
+//    /**
+//     * 跳转到添加页面
+//     */
+//    @GetMapping("/add")
+//    @RequiresPermissions("system:sticky:add")
+//    public String toAdd(Model model, Sticky sticky) {
+//        model.addAttribute("sticky", sticky);
+//        return "/system/sticky/add";
+//    }
     /**
-     * 跳转到添加页面
+     * 跳转到编辑页面
+     * @param id 要编辑的数据项的ID
+     * @param model 用于向前端传递数据
+     * @return 编辑页面的路径
      */
-    @GetMapping("/add")
-    @RequiresPermissions("system:sticky:add")
-    public String toAdd(Model model, Sticky sticky) {
+    @GetMapping("/edit/{id}")
+    @RequiresPermissions("system:sticky:edit")
+    public String toEdit(@PathVariable("id") Long id, Model model) {
+        // 通过ID获取对应的Sticky实例
+        Sticky sticky = stickyService.getById(id);
+        if (sticky == null) {
+            // 处理“找不到实例”的情况，例如重定向到列表页或显示错误消息
+            return "redirect:/system/sticky/index";
+        }
+        // 将数据传递到前端
         model.addAttribute("sticky", sticky);
+        // 返回编辑页面的路径
         return "/system/sticky/add";
     }
-
-
     /**
      * 粘随系统
      * 跳转到log页面
@@ -101,36 +119,36 @@ public class StickyController {
             EntityBeanUtil.copyProperties(beSticky, sticky);
         }
         // 保存数据
-       //python
-        // 构建Python脚本路径
-        URL resource = getClass().getResource("/scripts/process_sticky_info.py");
-        System.out.println("resource: "+ resource);
-        String pythonScriptFile = Paths.get(resource.toURI()).toString();
-
-        // 构建Python命令并执行
-        StringBuilder pythonCommandBuilder = new StringBuilder("python ");
-        pythonCommandBuilder.append(pythonScriptFile);
-        pythonCommandBuilder.append(" ");
-        pythonCommandBuilder.append(sticky.getId());
-
-        Process p = Runtime.getRuntime().exec(pythonCommandBuilder.toString());
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream(), StandardCharsets.UTF_8));
-        BufferedReader err = new BufferedReader(new InputStreamReader(p.getErrorStream(), StandardCharsets.UTF_8));
-
-        String line;
-        while ((line = in.readLine()) != null) {
-            System.out.println("Python Output: " + new String(line.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
-        }
-        while ((line = err.readLine()) != null) {
-            System.err.println("Python Error: " + line);
-        }
-
-        int exitCode = p.waitFor();
-        if (exitCode != 0) {
-            throw new IOException("Python script returned non-zero exit code: " + exitCode);
-        }
-        //python
+//       //python
+//        // 构建Python脚本路径
+//        URL resource = getClass().getResource("/scripts/process_sticky_info.py");
+//        System.out.println("resource: "+ resource);
+//        String pythonScriptFile = Paths.get(resource.toURI()).toString();
+//
+//        // 构建Python命令并执行
+//        StringBuilder pythonCommandBuilder = new StringBuilder("python ");
+//        pythonCommandBuilder.append(pythonScriptFile);
+//        pythonCommandBuilder.append(" ");
+//        pythonCommandBuilder.append(sticky.getId());
+//
+//        Process p = Runtime.getRuntime().exec(pythonCommandBuilder.toString());
+//
+//        BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream(), StandardCharsets.UTF_8));
+//        BufferedReader err = new BufferedReader(new InputStreamReader(p.getErrorStream(), StandardCharsets.UTF_8));
+//
+//        String line;
+//        while ((line = in.readLine()) != null) {
+//            System.out.println("Python Output: " + new String(line.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
+//        }
+//        while ((line = err.readLine()) != null) {
+//            System.err.println("Python Error: " + line);
+//        }
+//
+//        int exitCode = p.waitFor();
+//        if (exitCode != 0) {
+//            throw new IOException("Python script returned non-zero exit code: " + exitCode);
+//        }
+//        //python
 
         stickyService.save(sticky);
         return ResultVoUtil.SAVE_SUCCESS;
@@ -144,6 +162,22 @@ public class StickyController {
     public String toDetail(@PathVariable("id") Sticky sticky, Model model) {
         model.addAttribute("sticky",sticky);
         return "/system/sticky/detail";
+    }
+
+    /**
+     * 查询状态
+     */
+    @GetMapping("/check/{id}")
+    @RequiresPermissions("system:sticky:status")
+    @ResponseBody
+    public StatusResponse getStatusById(@PathVariable("id") Long id) {
+        Sticky sticky = stickyService.getById(id);
+        if (sticky != null) {
+            return new StatusResponse(sticky.getStatus());
+        } else {
+            // 处理未找到数据的情况，比如返回一个错误状态或者默认值
+            return new StatusResponse(-1); // 例如，这里使用-1表示未找到
+        }
     }
 
     /**
@@ -161,6 +195,21 @@ public class StickyController {
             return ResultVoUtil.success(statusEnum.getMessage() + "成功");
         } else {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
+        }
+    }
+    static class StatusResponse {
+        private int status;
+
+        public StatusResponse(int status) {
+            this.status = status;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
         }
     }
 }

@@ -1,80 +1,86 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
-    <style>
-        a{
-            color: #005980;
-        }
-        .widget-small .fa{
-            float: left;
-            width: 40%;
-            line-height: 80px;
-            color: #FFFFFF;
-        }
-        .widget-user .fa{
-            background-color: #18a974;
-        }
-        .widget-visit .fa{
-            background-color: #e79d4f;
-        }
-        .widget-message .fa{
-            background-color: #17a2b8;
-        }
-        .widget-like .fa{
-            background-color: #75878a;
-        }
-        .larger-bold {
-            font-weight: bold;
-            font-size: 18px; /* 这里可以根据需要调整字号大小 */
-        }
-        .widget-small-info h4{
-            font-size: 18px;
-        }
-        .widget-small-info span{
-            font-size: 16px;
-        }
-        .project-introduce h4{
-            font-weight: bold;
-            margin-top: 12px;
-            margin-bottom: 8px;
-        }
-        .project-introduce li{
-            list-style: decimal;
-            margin-left: 28px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/jsplumbtoolkit-defaults.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/animate.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
 </head>
 <body class="timo-layout-page" th:style="'background-image: url(' + @{/images/page.png} + ')'">
-<div class="layui-row layui-col-space5">
-    <div class="layui-col-md7">
-        <div class="layui-card">
-            <div class="layui-card-header">技术文档</div>
-            <div class="layui-card-body">
-                <div class="layui-carousel" id="carouselDemo">
-                    <div carousel-item="">
-                        <!-- 这里是动态加载的图片列表 -->
-                        <div><img src="/images/page.png" alt="" class="popup-image open-popup" data-title="图片详情" th:attr="data-url=@{/system/access/add}"></div>
-                        <div><img src="/images/page.png" alt="" class="popup-image open-popup" data-title="图片详情" th:attr="data-url=@{/system/access/index}"></div>
-                        <!-- 更多图片... -->
-                    </div>
-                </div>
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md3 layui-col-sm6 layui-col-xs12">
+        <div class="widget-small widget-user">
+            <i class="icon fa fa-cloud-upload fa-3x"></i>
+            <div class="widget-small-info">
+                <h4>服务总内存</h4>
+                <span>253</span>
+                <span class="memory-unit">MB</span>
             </div>
         </div>
     </div>
-    <div class="layui-col-md5">
-        <div class="layui-card">
-            <div class="layui-card-header">拓扑状态</div>
-
+    <div class="layui-col-md3 layui-col-sm6 layui-col-xs12">
+        <div class="widget-small widget-visit">
+            <i class="icon fa fa-line-chart fa-3x"></i>
+            <div class="widget-small-info">
+                <h4>新增日志</h4>
+                <span id="newLogsCount">0</span>
+                <span class="memory-unit">条</span>
+            </div>
         </div>
     </div>
-
+    <div class="layui-col-md3 layui-col-sm6 layui-col-xs12">
+        <div class="widget-small widget-message">
+            <i class="icon fa fa-users fa-3x"></i>
+            <div class="widget-small-info">
+                <h4>用户数量</h4>
+                <span>3</span>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md3 layui-col-sm6 layui-col-xs12">
+        <div class="widget-small widget-like">
+            <i class="icon fa fa-graduation-cap fa-3x"></i>
+            <div class="widget-small-info">
+                <h4>系统数量</h4>
+                <span>2</span>
+            </div>
+        </div>
+    </div>
 </div>
+
 <div class="layui-row layui-col-space5">
     <div class="layui-col-md7">
         <div class="layui-card">
-            <div class="layui-card-header larger-bold">节点分布</div>
+            <div class="layui-card-header larger-bold">拓扑状态</div>
             <div class="layui-card-body" style="height: 380px;">
-                <div id="map" style="width: 100%; height: 100%;"></div>
+<!--                <button id="replay-animation">重播动画</button>-->
+<!--                <button id="toggle-emergency">切换视图</button>-->
+                <button id="simulate-intrusion">模拟入侵</button>
+                <button id="reset-intrusion">复原入侵</button>
+                <select id="idSelect">
+                    <option value="1">场景1</option>
+                    <option value="2">场景2</option>
+                    <!-- 更多选项 -->
+                </select>
+                <div class="container">
+                    <div class="user"></div>
+                    <!-- 用户到服务器的数据传输 -->
+                    <div class="identity"></div>
+                    <!-- 服务器到用户的数据传输 -->
+                    <div class="data"></div>
+                    <div class="server">
+                        <!-- 节点初始时不显示 -->
+                        <div id="node1" class="node1" style="display:none;"></div>
+                        <div id="node2" class="node2" style="display:none;"></div>
+                        <div id="node3" class="node3" style="display:none;"></div>
+                        <!-- 紧急服务器初始时显示 -->
+                        <div id="emergency-server" class="emergency-server"></div>
+                        <!-- 提示容器，包含 SVG 和提示文字 -->
+                        <div id="exclamation-mark" style="display:none;">
+                            <!-- 使用 img 标签引入 PNG 图片 -->
+                            <img src="/images/notpass.png" alt="Exclamation Mark" width="50" height="50" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -89,266 +95,82 @@
             </div>
         </div>
     </div>
+
+
 </div>
+<div class="layui-row layui-col-space5">
+    <div class="layui-col-md4">
+        <div class="layui-card">
+            <div class="layui-card-header larger-bold">服务部署</div>
+            <div class="layui-card-body" style="height: 380px;">
+                <div id="map" style="width: 100%; height: 100%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md8">
+        <div class="layui-card">
+            <div class="layui-card-header larger-bold">技术文档</div>
+            <div class="layui-card-body"  style="height: 380px;">
+                <!-- Swiper -->
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="/images/book/ppt1.png" alt="" class="popup-image open-popup" data-title="文档详情" th:attr="data-url=@{/system/access/index(pdfurl='/data/ppt1.pdf')}">
+                            <div class="doc-title">网安术语</div>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="/images/book/ppt2.png" alt="" class="popup-image open-popup" data-title="文档详情" th:attr="data-url=@{/system/access/index(pdfurl='/data/ppt2.pdf')}">
+                            <div class="doc-title">门限签名</div>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="/images/book/ppt3.png" alt="" class="popup-image open-popup" data-title="文档详情" th:attr="data-url=@{/system/access/index(pdfurl='/data/ppt3.pdf')}">
+                            <div class="doc-title">多方授权</div>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="/images/book/ppt4.png" alt="" class="popup-image open-popup" data-title="文档详情" th:attr="data-url=@{/system/access/index(pdfurl='/data/ppt4.pdf')}">
+                            <div class="doc-title">NFT</div>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="/images/book/ppt5.png" alt="" class="popup-image open-popup" data-title="文档详情" th:attr="data-url=@{/system/access/index(pdfurl='/data/ppt5.pdf')}">
+                            <div class="doc-title">共识算法</div>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="/images/book/ppt6.png" alt="" class="popup-image open-popup" data-title="文档详情" th:attr="data-url=@{/system/access/index(pdfurl='/data/ppt6.pdf')}">
+                            <div class="doc-title">论文</div>
+                        </div>
+                        <!-- 更多Slides... -->
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Swiper的CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+<!-- Swiper的JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    var mySwiper = new Swiper('.swiper-container', {
+        slidesPerView: 3,  // 一屏显示两个文档
+        spaceBetween: 40,  // 两个文档之间的间距
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+</script>
 
 <script th:replace="/common/template :: script"></script>
 <script type="text/javascript" th:src="@{/js/plugins/echarts.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/china.js}"></script>
 <script type="text/javascript" th:src="@{/js/world.js}"></script>
 <script type="text/javascript" th:src="@{/js/plugins/jquery-2.2.4.js}"></script>
+<script type="text/javascript" th:src="@{/js/jsplumb.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/index.js}"></script>
 
 
 
-<!--折线图-->
-<script type="text/javascript">
-    // 折线图
-    var myChart = echarts.init(document.getElementById('lineChart'));
-    function getFormattedDate() {
-        var date = new Date();
-        var year = date.getFullYear();
-        var month = ("0" + (date.getMonth() + 1)).slice(-2);
-        var day = ("0" + date.getDate()).slice(-2);
-        return year + "-" + month + "-" + day;
-    }
-
-    const url = '/system/actionLog/dates/' + getFormattedDate();
-    // 使用jQuery发起Ajax请求（假设你的后端API返回的数据格式与serverCapacities一致）
-    $(document).ready(function() {
-        $.ajax({
-            url:url,
-            method: 'GET',
-            success: function(response) {
-                console.log('url:', url); // 输出整个
-                let serverCapacities = response;
-                const dates = Object.keys(serverCapacities);
-                // 将对象转换为数组，并按照键（日期）排序
-                const sortedEntries = Object.entries(response).sort((a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime());
-
-                // 获取最后两个条目的日志数量
-                const [lastDate, lastCount] = sortedEntries.pop();
-                const [penultimateDate, penultimateCount] = sortedEntries.pop();
-
-                // 计算差值
-                const diff = lastCount - penultimateCount;
-
-                // 更新DOM元素中的数据
-                $('#newLogsCount').text(diff);
-                const series = {
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                        { offset: 0, color: 'rgb(66,111,251)' }, // 开始颜色（例如红色）
-                        { offset: 1, color: 'rgb(24,228,253)' }   // 结束颜色（例如绿色）
-                    ]),
-                    name: 'Server Capacity',
-                    type: 'line',
-                    smooth: true,
-                    symbolSize: 10,
-                    emphasis: {
-                        focus: 'series',
-                        symbolSize: 25,
-                    },
-                    lineStyle: {
-                        width: 4
-                    },
-                    data: dates.map(date => serverCapacities[date]) // 根据日期获取对应的服务器容量
-                };
-
-                // 定义 ECharts 图表配置项
-                const option = {
-                    tooltip: {
-                        trigger: 'axis',
-                        formatter: (params) => `
-            <div style="font-size: larger;">${params[0].name}</div>
-            日志数量: ${params[0].value * 1}
-        `,
-                        backgroundColor: 'rgb(236,244,251)', // 可选，设置背景颜色以提高可读性
-                        padding: [10, 15], // 可选，设置内边距
-                        textStyle: { // 可选，设置文字样式
-                            color: '#000000',
-                            fontSize: 14 // 这里统一设置了tooltip的文字大小，如果你想让日期更大，可以在这里或formatter中第一行单独指定更大的字号
-                        },
-                    },
-                    xAxis: {
-                        type: 'category',
-                        boundaryGap: false,
-                        axisLabel: {
-                            margin: 30,
-                            fontSize: 16
-                        },
-                        data: dates
-                    },
-                    yAxis: {
-                        type: 'value',
-                        show: true,
-                        axisLabel: {
-                            margin: 30,
-                            fontSize: 16,
-                            formatter: '{value} ' // 假设单位是GB
-                        },
-                        splitNumber: 5, // 这个属性可以根据需求调整纵坐标轴的分割段数，默认为5
-                        interval: Math.max.apply(null, series.data) / 5, // 自动计算一个合适的间隔值，这里假设最大值分为5份
-                        min: 0 // 根据实际情况设定最小值
-                    },
-                    series: [series]
-                };
-                // 使用刚指定的配置项和数据显示图表。
-                myChart.setOption(option);
-            },
-            error: function(err) {
-            }
-        });
-    });
-</script>
-<!--地图-->
-<script type="text/javascript">
-    var myMap = echarts.init(document.getElementById('map'));
-    var geoCoordMap = {
-        // 国内城市
-        '北京': [116.46, 39.92],
-        '成都': [104.06, 30.67],
-        '广州': [113.23, 23.16],
-        '海口': [110.35, 20.02],
-        '哈尔滨': [126.63, 45.75],
-        '杭州': [120.19, 30.26],
-        '呼和浩特': [111.65, 40.82],
-        '三亚': [109.511909, 18.252847],
-        '上海': [121.48, 31.22],
-        '深圳': [114.07, 22.62],
-        '珠海': [113.52, 22.3],
-        '乌鲁木齐': [87.68, 43.77],
-        // 国际城市
-        '伦敦': [-0.1277583, 51.5073509],
-        '纽约': [-74.0060152, 40.7127281],
-        '巴黎': [2.3522219, 48.856614],
-        '悉尼': [151.209295, -33.868820],
-        '东京': [139.767137, 35.689487],
-    };
-    $.ajax({
-        url: '/system/locking/locate',
-        method: 'GET',
-        success: function(response) {
-            console.log('原始响应:', response);
-            var data = [];
-            for (let [location, count] of Object.entries(response)) {
-                if (geoCoordMap[location]) {  // 确保location在geoCoordMap中有对应的坐标
-                    data.push({ name: location, value: count });
-                }
-            }
-            console.log('转换后的data:', data);
-            var convertData = function (data) {
-                var res = [];
-                for (var i = 0; i < data.length; i++) {
-                    var geoCoord = geoCoordMap[data[i].name];
-                    if (geoCoord) {
-                        res.push({
-                            name: data[i].name,
-                            value: geoCoord.concat(data[i].value)
-                        });
-                    }
-                }
-                return res;
-            };
-
-            option = {
-                // backgroundColor: '#f1f1f1',
-                tooltip: {
-                    trigger: 'item',
-                    formatter: function(params) {
-                        return '<div style="background-color:#fff;padding:5px 10px;">'
-                            + '<p style="color:#333;font-size:16px;font-weight:bold;margin:0;">' + params.name + '</p>'
-                            + '<p style="font-size:14px;margin:0;">服务节点数量：' + params.value[2] + '</p>'
-                            + '</div>';
-                    },
-                },
-                geo: {
-                    map: 'world',
-                    zoom: 1.2,//放大p-==-
-                    label: {
-                        emphasis: {
-                            show: false
-                        }
-                    },
-                    roam: true,
-                    itemStyle: {
-                        normal: {
-                            areaColor: 'rgba(213,213,213,0.5)',
-                            borderColor: 'rgba(112,187,252,.5)'
-                        },
-                        emphasis: {
-                            areaColor: 'rgba(2,37,101,.8)'
-                        }
-                    }
-                },
-                series: [
-                    {
-                        name: '服务节点数量',
-                        type: 'effectScatter',
-                        coordinateSystem: 'geo',
-                        rippleEffect: {
-                            brushType: 'stroke'
-                        },
-                        data: convertData(data),
-                        symbolSize: function (val) {
-                            return val[2]*8 ;
-                        },
-                        label: {
-                            normal: {
-                                formatter: '{b}',
-                                position: 'right',
-                                show: false
-                            },
-                            emphasis: {
-                                show: false
-                            }
-                        },
-                        itemStyle: {
-                            normal: {
-                                color: '#7bc4ff'
-                            }
-                        }
-                    }
-
-                ]
-            };
-            myMap.setOption(option);
-            window.addEventListener("resize", function () {
-                myMap.resize();
-            });
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.error('Error occurred while fetching location counts:', textStatus, ', Details:', errorThrown);
-        }
-    });
-    // var data = [
-    //     { name: '上海', value: 8 },
-    //     { name: '海口', value: 8 },
-    //     { name: '哈尔滨', value: 8 },
-    //     { name: '北京', value: 8 },
-    // ];
-</script>
-<script>
-    layui.use(['carousel'], function(){
-        var carousel = layui.carousel;
-    // 轮播图配置
-        carousel.render({
-            elem: '#carouselDemo' // 匹配容器
-            ,width: '100%' // 宽度
-            ,height: '300px' // 高度
-            ,arrow: 'always' // 是否始终显示箭头
-            ,interval: 3000 // 切换间隔时间
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        // 为所有具有'popup-image'类的图片绑定点击事件
-        $('.popup-image').click(function(e) {
-            e.preventDefault(); // 阻止默认的链接行为
-
-            // 触发UI库的弹窗功能
-            // 假设layui会自动处理data-url和data-title这样的属性
-            $(this).trigger('open-popup');
-        });
-    });
-</script>
 </body>
 </html>

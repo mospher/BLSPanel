@@ -1,55 +1,62 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
-    <style>
-        .layui-form-pane .layui-form-label{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/lib/zTree_v3/css/zTreeStyle/zTreeStyle.css}" type="text/css">
 </head>
-<body class="timo-layout-page" th:style="'background-image: url(' + @{/images/page.png} + ')'" >
-    <div class="layui-form timo-compile">
-        <form class="layui-form layui-form-pane xm-select-demo" th:action="@{/system/sticky/save}" method="post">
-            <div id="xmSelect" class="xm-select-demo timo-finally" ></div>
-            <pre id="xmSelect-value"></pre>
-            <input type="hidden"  name="title" th:value="粘随子系统" >
-            <input type="hidden" name="id" th:if="${sticky}" th:value="${sticky.id}">
-
-            <input type="hidden" name="deviceFingerprint" id="deviceFingerprint" value="1">
-            <input type="hidden" name="operatingSystemInfo" id="operatingSystemInfo" value="1">
-            <input type="hidden" name="cpuInfo" id="cpuInfo" value="1">
-            <input type="hidden" name="memoryInfo" id="memoryInfo" value="1">
-            <input type="hidden" name="hardDiskInfo" id="hardDiskInfo" value="1">
-            <input type="hidden" name="networkCardInfo" id="networkCardInfo" value="1">
-            <input type="hidden" name="manufacturer" id="manufacturer" value="1">
-            <input type="hidden" name="modelNumber" id="modelNumber" value="1">
-            <input type="hidden" name="serialNumber" id="serialNumber" value="1">
-            <input type="hidden" name="ipAddress" id="ipAddress" value="1">
-            <div class="layui-form-item timo-finally">
-                <input value= "http://172.16.0.103/login" type="text" name="portNumber" lay-verify="required|number" placeholder="请输入网站地址" autocomplete="off" class="layui-input" />
+<body>
+<div class="layui-form timo-compile">
+    <form class="layui-form layui-form-pane xm-select-demo" th:action="@{/system/sticky/save}" method="post">
+        <input type="hidden" name="id" th:if="${sticky}" th:value="${sticky.id}"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">场景</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="title" placeholder="请输入标题" th:value="${sticky?.title}">
             </div>
-            <div class="layui-form-item timo-finally">
-                <label class="layui-form-label">地点</label>
-                <div class="layui-input-inline">
-                    <select name="location" lay-search="">
-                        <option value="">请选择或搜索</option>·
-                        <option value="上海" th:selected="${sticky?.location == '上海'}">上海</option>
-                        <option value="海口" th:selected="${sticky?.location == '海口'}">海口</option>
-                        <option value="哈尔滨" th:selected="${sticky?.location == '哈尔滨'}">哈尔滨</option>
-                        <option value="北京" th:selected="${sticky?.location == '北京'}">北京</option>
-                    </select>
-                </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">网站地址</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="portNumber" placeholder="请输入网站地址" th:value="${sticky?.remark}">
             </div>
-            <div class="layui-form-item timo-finally">
-                <button class="layui-btn" id="xmSelect-getValue"><i class="fa fa-check-circle"></i> 保存</button>
-                <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">配置项</label>
+            <div class="layui-input-inline">
+                <div id="xmSelect" class="xm-select-demo"></div>
             </div>
-        </form>
-    </div>
-<script th:replace="/common/template :: script"></script>
+        </div>
+        <input type="hidden" name="deviceFingerprint" id="deviceFingerprint" value="1">
+        <input type="hidden" name="operatingSystemInfo" id="operatingSystemInfo" value="1">
+        <input type="hidden" name="cpuInfo" id="cpuInfo" value="1">
+        <input type="hidden" name="memoryInfo" id="memoryInfo" value="1">
+        <input type="hidden" name="hardDiskInfo" id="hardDiskInfo" value="1">
+        <input type="hidden" name="networkCardInfo" id="networkCardInfo" value="1">
+        <input type="hidden" name="manufacturer" id="manufacturer" value="1">
+        <input type="hidden" name="modelNumber" id="modelNumber" value="1">
+        <input type="hidden" name="serialNumber" id="serialNumber" value="1">
+        <input type="hidden" name="ipAddress" id="ipAddress" value="1">
+        <div class="layui-form-item">
+            <label class="layui-form-label">地点</label>
+            <div class="layui-input-inline">
+                <select name="location" lay-search="">
+                    <option value="">请选择或搜索</option>·
+                    <option value="上海" th:selected="${sticky?.location == '上海'}">上海</option>
+                    <option value="海口" th:selected="${sticky?.location == '海口'}">海口</option>
+                    <option value="哈尔滨" th:selected="${sticky?.location == '哈尔滨'}">哈尔滨</option>
+                    <option value="北京" th:selected="${sticky?.location == '北京'}">北京</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item timo-finally">
+            <button class="layui-btn" id="xmSelect-getValue"><i class="fa fa-check-circle"></i> 保存</button>
+            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+        </div>
+    </form>
+</div>
 <script type="text/javascript" th:src="@{/js/plugins/xmselect.js}"></script>
+<script th:replace="/common/template :: script"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery-2.2.4.min.js}"></script>
+
 <script>
     var xmSelect = xmSelect.render({
         el: '#xmSelect',
@@ -86,6 +93,13 @@
         var formData = new FormData(form);
         const portNumberInput = document.querySelector('input[name="portNumber"]');
         formData.set('remark', portNumberInput.value.trim());
+
+        const titleInput = document.querySelector('input[name="title"]');
+        formData.set('title', titleInput.value.trim());
+
+        const locationSelect = document.querySelector('select[name="location"]');
+        formData.set('location', locationSelect.value);
+
         // 获取当前多选选中的值并添加到formData（如果xmSelect插件不自动处理的话）
         var selectArr = xmSelect.getValue();
         selectArr.forEach(item => {
@@ -124,7 +138,7 @@
         });
 
         // formData.append('selectedValues', JSON.stringify(selectArr));
-        document.getElementById('xmSelect-value').innerHTML = JSON.stringify(selectArr, null, 2);
+        // document.getElementById('xmSelect-value').innerHTML = JSON.stringify(selectArr, null, 2);
 
         // 使用fetch发起POST请求
         fetch(form.action, {

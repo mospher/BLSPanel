@@ -1,11 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+    <style>
+        #viewerContainer {
+            display: flex; /* 使用Flexbox布局 */
+            flex-direction: column; /* 子元素垂直排列 */
+            align-items: center; /* 水平居中 */
+            justify-content: center; /* 垂直居中，如果容器高度足够的话 */
+            height: 100%; /* 设置容器高度，根据需要调整 */
+            overflow: auto; /* 如果内容超出容器大小，则允许滚动 */
+        }
+        canvas {
+            margin: 10px 0; /* 在每个canvas元素之间添加一些垂直间距 */
+        }
+    </style>
+
 </head>
 <body>
 <div class="layui-form timo-compile">
     <div id="viewerContainer">
-        <div id="pdfViewer"></div>
+        <!-- 容器将包含所有页面的画布 -->
     </div>
 </div>
 <script th:replace="/common/template :: script"></script>
@@ -13,32 +27,41 @@
 <script type="text/javascript" th:src="@{/js/plugins/jquery-2.2.4.js}"></script>
 
 <script>
-    // 获取PDF文件路径
-    var pdfurl = '/pbft.pdf';
-    // 初始化PDF.js
+    function getPDFUrl() {
+        const queryParams = new URLSearchParams(window.location.search);
+        console.log(queryParams.get('pdfurl'));
+        return queryParams.get('pdfurl');
+    }
+
+    var pdfurl = getPDFUrl() || '/PLC.pdf';  // 如果没有参数，可以有一个默认值
     pdfjsLib.GlobalWorkerOptions.workerSrc = '//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.worker.min.js';
 
-    // 加载并渲染PDF文件
     pdfjsLib.getDocument(pdfurl).promise.then(function(pdf) {
-        return pdf.getPage(1); // 取得第一页
-    }).then(function(page) {
-        var scale = 1;
-        var viewport = page.getViewport({scale: scale});
+        // 获取文档总页数
+        var totalPages = pdf.numPages;
+        // 遍历所有页面
+        for(let pageNum = 1; pageNum <= totalPages; pageNum++) {
+            pdf.getPage(pageNum).then(function(page) {
+                var scale = 1;
+                var viewport = page.getViewport({scale: scale});
+                var container = document.getElementById('viewerContainer');
+                var canvas = document.createElement('canvas');
+                // 为每页创建一个新的画布
+                canvas.id = 'pdfPage-' + pageNum;
+                container.appendChild(canvas);
 
-        var container = document.getElementById('pdfViewer');
-        var canvas = document.createElement('canvas');
-        container.appendChild(canvas);
+                var context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
 
-        var context = canvas.getContext('2d');
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-
-        var renderContext = {
-            canvasContext: context,
-            viewport: viewport
-        };
-        // 渲染页面
-        page.render(renderContext);
+                var renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                // 渲染当前页面
+                page.render(renderContext);
+            });
+        }
     }).catch(function(error) {
         console.error('无法加载或解析PDF文件：', error);
     });

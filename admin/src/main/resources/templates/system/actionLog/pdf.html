@@ -9,14 +9,14 @@
     </div>
 </div>
 <script th:replace="/common/template :: script"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+<script type="text/javascript" th:src="@{/js/pdf.js}"></script>
 <script type="text/javascript" th:src="@{/js/plugins/jquery-2.2.4.js}"></script>
 
 <script>
     // 获取PDF文件路径
     var pdfurl = '/pbft.pdf';
     // 初始化PDF.js
-    pdfjsLib.GlobalWorkerOptions.workerSrc = '//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.worker.min.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '/js/pdf.worker.min.js';
 
     // 加载并渲染PDF文件
     pdfjsLib.getDocument(pdfurl).promise.then(function(pdf) {

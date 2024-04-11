@@ -3,95 +3,14 @@
 <head>
     <title>数据双向传输模拟</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jsPlumb/2.15.6/css/jsplumbtoolkit-defaults.min.css" rel="stylesheet">
-    <style>
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 320px;
-            position: relative;
-        }
-        .user, .server {
-            width: 100px;
-            height: 100px;
-            position: absolute;
-            background-size: cover;
-        }
-        .user {
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            background: url('/images/user.png') no-repeat center;
-            background-size: contain; /* 确保图像完整显示 */
-            width: 100px; /* 调整为适当的尺寸 */
-            height: 100px;
-        }
-        .approval {
-            position: absolute;
-            top: 70px; /* 调整以适应布局 */
-            left: 70px; /* 调整以适应布局 */
-            width: 60px; /* 图片大小 */
-            height: auto; /* 保持宽高比 */
-            display: none;
-            z-index: 1000; /* 确保z-index足够高 */
-        }
-
-        .server {
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: #f0f0f0;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 200px;
-            height: 200px;
-        }
-        .node {
-            width: 30px;
-            height: 30px;
-            border-radius: 15px;
-            background-color: #3498db;
-            position: absolute;
-        }
-        #node1 { top: 10px; left: 85px; }
-        #node2 { top: 150px; left: 10px; }
-        #node3 { top: 150px; left: 160px; }
-
-        .identity, .data {
-            width: 40px;
-            height: 40px;
-            position: absolute;
-            background-size: cover;
-        }
-        .identity {
-            left: 0;
-            background-image: url('/images/idcard-green.png');
-            animation: moveIdentity 3s linear forwards;
-        }
-        .data {
-            right: 0;
-            background-image: url('/images/serverdata.png');
-            animation: moveData 3s linear forwards;
-            animation-delay: 3s;
-        }
-        @keyframes moveIdentity {
-            0% { left: 0; opacity: 1; }
-            90% { left: calc(100% - 240px); opacity: 1; }
-            100% { left: calc(100% - 240px); opacity: 0; }
-        }
-
-        @keyframes moveData {
-            0% { right: 0; opacity: 1; }
-            90% { right: calc(100% - 100px); opacity: 1; }
-            100% { right: calc(100% - 100px); opacity: 0; }
-        }
-
-    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/animate.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
 </head>
 <body>
 <button id="replay-animation">重播动画</button>
+<button id="toggle-emergency">切换视图</button>
+<button id="simulate-intrusion">模拟入侵</button>
+<button id="reset-intrusion">复原入侵</button>
 <div class="container">
     <div class="user"></div>
     <!-- 用户到服务器的数据传输 -->
@@ -99,55 +18,25 @@
     <!-- 服务器到用户的数据传输 -->
     <div class="data"></div>
     <div class="server">
-        <div id="node1" class="node"></div>
-        <div id="node2" class="node"></div>
-        <div id="node3" class="node"></div>
-        <img src="/images/pass.png" class="approval" style="display:none;" />
+        <!-- 节点初始时不显示 -->
+        <div id="node1" class="node1" style="display:none;"></div>
+        <div id="node2" class="node2" style="display:none;"></div>
+        <div id="node3" class="node3" style="display:none;"></div>
+        <!-- 紧急服务器初始时显示 -->
+        <div id="emergency-server" class="emergency-server"></div>
+        <!-- 添加一个感叹号的元素，初始时不显示 -->
+        <!-- 提示容器，包含 SVG 和提示文字 -->
+        <div id="exclamation-mark" style="display:none;">
+            <!-- 使用 img 标签引入 PNG 图片 -->
+            <img src="/images/notpass.png" alt="Exclamation Mark" width="50" height="50" />
+        </div>
+
+        <!--        <img src="/images/pass.png" class="approval" style="display:none;" />-->
     </div>
 
 </div>
-
+<script type="text/javascript" th:src="@{/js/plugins/jquery-2.2.4.js}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsPlumb/2.15.6/js/jsplumb.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var instance = jsPlumb.getInstance({
-            container: document.querySelector('.server')
-        });
-
-        instance.connect({ source: 'node1', target: 'node2' });
-        instance.connect({ source: 'node2', target: 'node3' });
-        instance.connect({ source: 'node3', target: 'node1' });
-    });
-
-    document.getElementById('replay-animation').addEventListener('click', function() {
-        var identity = document.querySelector('.identity');
-        var data = document.querySelector('.data');
-        var approval = document.querySelector('.approval');
-
-        // 重置动画和元素状态
-        identity.style.animation = 'none';
-        data.style.animation = 'none';
-        approval.style.display = 'none';
-
-        identity.offsetHeight; // 触发重绘
-        data.offsetHeight;
-
-        // 开始身份信息动画
-        identity.style.animation = 'moveIdentity 2s linear forwards';
-
-        // 身份信息动画完成后显示审核通过图像
-        identity.addEventListener('animationend', function() {
-            approval.style.display = 'block';
-
-            // 在展示审核通过图像一段时间后开始数据动画
-            setTimeout(function() {
-                approval.style.display = 'none';
-                data.style.animation = 'moveData 2s linear forwards';
-            }, 1000); // 1.5秒后开始数据动画
-        }, { once: true });
-    });
-
-
-</script>
+<script type="text/javascript" th:src="@{/js/index.js}"></script>
 </body>
 </html>

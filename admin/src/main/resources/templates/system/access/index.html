@@ -24,6 +24,7 @@
 </div>
 <script th:replace="/common/template :: script"></script>
 <script type="text/javascript" th:src="@{/js/pdf.js}"></script>
+<script type="text/javascript" th:src="@{/js/pdf.worker.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/plugins/jquery-2.2.4.js}"></script>
 
 <script>
@@ -34,7 +35,7 @@
     }
 
     var pdfurl = getPDFUrl() || '/PLC.pdf';  // 如果没有参数，可以有一个默认值
-    pdfjsLib.GlobalWorkerOptions.workerSrc = '//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.worker.min.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '/js/pdf.worker.min.js';
 
     pdfjsLib.getDocument(pdfurl).promise.then(function(pdf) {
         // 获取文档总页数
